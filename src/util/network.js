@@ -1,5 +1,5 @@
 
-export class Response {
+export class JSONResponse {
 
     constructor(data=null, error=null){
       this.data = data;
@@ -14,12 +14,12 @@ export class Response {
 export async function getData(url = ""){
     
     if(url == "") 
-      return Response(error="Url can't be null.");
+      return new JSONResponse(error="Url can't be null.");
 
     const response = await fetch(url);
 
     if(response.status == 200)
-      return Response(data=await response.json());
+      return new JSONResponse(data=await response.json());
     else
-      return Response(error=response.error);
+      return new JSONResponse(error=response.error);
 }

@@ -1,19 +1,25 @@
-import { getData } from '../../../util/network.js'
+import { getData, JSONResponse } from '../../../util/network.js'
+import { CaasDTO } from './caas_dto.js';
 
 export class CaasAPI {
 
     constructor(){
-        this.url = "https://cataas.com/cat?json=true";
+        this.url = "https://cataas.com";
     }
 
     async getRandomCat() {
         
-        let data =  await getData(this.url);
+        let resp =  await getData(this.url+"/cat/gif?json=true");
 
-        
-
-        return data;
-
+        if(!resp.hasError()){
+            let dto = new CaasDTO();
+            dto.from(resp.data);
+            dto.url = this.url + dto.url;
+            return new JSONResponse(data=dto);
+        }
+        else{
+            return resp;
+        }
     }
 
     

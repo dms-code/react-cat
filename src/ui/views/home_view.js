@@ -1,26 +1,42 @@
 import React from 'react'
 import { View, Text } from "react-native";
 import { CatController } from "../../controller/cat_controller";
+import { GifLoader } from '../components/gif_loader.js';
 
 export class HomeView extends React.Component {
 
     constructor(props){
         super(props);
 
-        new CatController().getRandomCat().then((x)=>{
-          this.setState({
-            data: JSON.stringify(x)
-          })
-        });
-
-
+        this.controller = new  CatController();
         this.state = { data: "Loading..." }
+    }
+
+    componentDidMount(){
+      
+      this.onReload();
+
+    }
+
+    onReload = ()=>{
+
+      this.controller.getRandomCat().then(url=>{
+
+        this.setState({url: url});
+    
+
+      }).catch(err=>{
+
+        this.setState({error: true});
+
+      });
+
     }
     
     render(){
       return (
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>{this.state.data}</Text>
+            <GifLoader url={this.state.url} onReload={this.onReload} > </GifLoader>
           </View>
         );
     }

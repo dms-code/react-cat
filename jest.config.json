@@ -1,0 +1,8 @@
+{
+   "testMatch":["**/tests/**/*"],
+    "bail": 1,
+    "verbose": true
+
+  }
+  
+  

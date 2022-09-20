@@ -1,9 +1,22 @@
-import { CaasAPI } from './../datasource/remote/caasapi/caasapi.js'
+import { CatRepository } from '../repository/cat_repository.js';
 
 export class CatController {
 
-    async getRandomCat(){
-        return await new CaasAPI().getRandomCat();
+    constructor(){
+        this.repo = new CatRepository();
+    }
+
+    getRandomCat(){
+        return new Promise(async (resolve, reject)=>{
+
+            let catData = await this.repo.getRandomCat();
+
+            if(!catData.hasError())
+                resolve(catData.data.url);
+            else
+                reject(catData.error);       
+             
+        });
     }
 
 
